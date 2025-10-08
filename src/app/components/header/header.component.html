@@ -30,6 +30,24 @@
                  flex              <!-- Flex container for input & button -->
                  items-center">    <!-- Vertically center children -->
 
+            <!-- Category dropdown -->
+            <!-- 
+                w-auto → Width adjusts to content
+                    bg-gray-300 → Light gray background
+                        h-full → Full height of parent container
+                            border-none → Removes the native border
+                                font-semibold → Applies medium-bold font weight
+                                    px-2 → Horizontal padding: 0.5rem (left and right)
+                                        pr-5 → Extra right padding: 1.25rem (useful if there's an arrow icon or to avoid clipping text)
+            -->
+            <select
+                class="w-auto bg-gray-300 h-full border-none font-semibold px-2 pr-5"
+            >
+                <option>Men</option>
+                <option>Women</option>
+                <option>Kids</option>
+            </select>
+
             <!-- Search input field -->
                 <!-- Width: 90% of parent container -->
                     <!-- Height: 100% of parent container (2.5rem) -->
@@ -54,7 +72,7 @@
 
                 <fa-icon [icon]="faSearch"></fa-icon>
             </button>
-            
+
         </div>
 
     </div>

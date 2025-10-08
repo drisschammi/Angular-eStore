@@ -5,7 +5,7 @@
          bg-gray-900">        <!-- Background color: very dark gray -->
 
     <!-- Flex container to align inner items horizontally -->
-    <div class="flex">        <!-- Makes child elements align in a row -->
+    <div class="flex items-center">        <!-- Makes child elements align in a row -->
 
         <!-- Inner box for branding / title -->
         <div 
@@ -18,6 +18,43 @@
                        font-bold">     <!-- Font weight: bold -->
                 ANGULAR-ESTORE
             </h1>
+        </div>
+
+        <!-- Search box container -->
+        <div 
+          class="p-0               <!-- Padding reset to zero -->
+                 my-4              <!-- Vertical margin (top & bottom) 1rem -->
+                 w-[50%]           <!-- Custom width: 50% of parent -->
+                 h-[2.5rem]        <!-- Fixed height: 2.5 rem -->
+                 bg-white          <!-- Background color: white -->
+                 flex              <!-- Flex container for input & button -->
+                 items-center">    <!-- Vertically center children -->
+
+            <!-- Search input field -->
+                <!-- Width: 90% of parent container -->
+                    <!-- Height: 100% of parent container (2.5rem) -->
+                        <!-- Display inline-block -->
+                            <!-- Remove default border -->
+                                <!-- Remove focus outline -->
+                                    <!-- Horizontal padding left & right 0.75rem -->
+            <input
+                class="w-[90%] h-full inline-block border-none outline-none px-3"
+                placeholder="Search..."
+            />
+
+            <!-- Search button -->
+            <button 
+              class="w-[10%]          <!-- Width: 10% of parent -->
+                     h-10             <!-- Fixed height: 2.5rem (10 x 0.25rem) -->
+                     border-none      <!-- Remove default border -->
+                     bg-gray-300      <!-- Light gray background -->
+                     flex             <!-- Flex container -->
+                     justify-center   <!-- Horizontally center icon -->
+                     items-center">   <!-- Vertically center icon -->
+
+                <fa-icon [icon]="faSearch"></fa-icon>
+            </button>
+            
         </div>
 
     </div>

@@ -75,5 +75,65 @@
 
         </div>
 
+        <!-- Right section container -->
+        <div 
+        class="flex                 <!-- Flex container to arrange children horizontally -->
+                items-center         <!-- Vertically center items -->
+                w-[27%]              <!-- Custom width: 27% of parent -->
+                gap-6                <!-- Horizontal gap between child elements: 1.5rem -->
+                justify-end          <!-- Push content to the right -->
+                pr-4                 <!-- Right padding: 1rem -->
+                h-full">             <!-- Full height of parent container -->
+
+            <!-- User authentication links (Sign in / Register) -->
+            <div 
+            class="flex             <!-- Arrange inner elements in a row -->
+                    items-center     <!-- Vertically center items -->
+                    gap-2            <!-- Horizontal gap between items: 0.5rem -->
+                    text-white">     <!-- Text color: white -->
+
+                <fa-icon 
+                    [icon]="faUserCircle" 
+                    class="text-[1.3em]"> <!-- Custom font size: 1.3em -->
+                </fa-icon>
+
+                <h5>
+                    <a 
+                    href="#" 
+                    class="text-white               <!-- Text color: white -->
+                            no-underline           <!-- Remove underline -->
+                            hover:underline">      <!-- Add underline on hover -->
+                    Sign in
+                    </a>
+                </h5>
+
+                <span>/</span>
+                
+                <h5>
+                    <a 
+                    href="#" 
+                    class="text-white               <!-- Text color: white -->
+                            no-underline           <!-- Remove underline -->
+                            hover:underline">      <!-- Add underline on hover -->
+                    Register
+                    </a>
+                </h5>
+
+            </div>
+
+            <!-- Icons for Wishlist and Cart -->
+            <div 
+            class="flex                 <!-- Arrange icons in a row -->
+                    items-center         <!-- Vertically center icons -->
+                    gap-4                <!-- Horizontal gap between icons: 1rem -->
+                    text-white           <!-- Icon color: white -->
+                    text-[1.3em]">       <!-- Custom font size: 1.3em -->
+                <fa-icon [icon]="faHeart"></fa-icon>
+                <fa-icon [icon]="faShoppingCart"></fa-icon>
+            </div>
+
+        </div>
+
     </div>
+    
 </div>

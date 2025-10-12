@@ -16,12 +16,16 @@ export class SidenavigationComponent {
   categories: Category[] = [];
 
   constructor(categoryService: CategoryService) {
-    this.categories = categoryService.getAllCategories();
+    categoryService.getAllCategories().subscribe((data) => {
+      this.categories = data;
+    });
   }
 
-  getCategories(parentCategory?: number): Category[] {
-    return this.categories.filter(
-      (c) => c.parent_category_id === parentCategory
+  getCategories(parentCategoryId?: number): Category[] {
+    return this.categories.filter((category) =>
+      parentCategoryId
+        ? category.parent_category_id === parentCategoryId
+        : category.parent_category_id === null
     );
   }
 }

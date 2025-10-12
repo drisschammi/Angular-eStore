@@ -2,8 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const productCategories = require("./routes/productCategories");
 
+const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 5001;
+
+app.use(cors());
 
 app.use("/productCategories", productCategories);
 

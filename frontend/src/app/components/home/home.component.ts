@@ -28,9 +28,14 @@ import { ProductsService } from './services/product/products.service';
 export class HomeComponent {
   constructor(
     private categoriesStore: CategoriesStoreItem,
-    private productsStore: ProductsStoreItem
+    private productsStoreItem: ProductsStoreItem
   ) {
     this.categoriesStore.loadCategories();
-    this.productsStore.loadProducts();
+    this.productsStoreItem.loadProducts();
   }
+
+  onSubCategorySelected(subCategoryId: number): void {
+    this.productsStoreItem.loadProducts({ subcategoryid: subCategoryId });
+  }
+
 }

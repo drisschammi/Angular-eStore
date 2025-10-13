@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ProductsService } from './products.service';
-import { Product } from './products.type';
+import { Product } from '../home/types/products.type';
 import { CommonModule } from '@angular/common';
 import { RatingsComponent } from '../ratings/ratings.component';
+import { ProductsService } from '../home/services/product/products.service';
+import { ProductsStoreItem } from '../home/services/product/products.storeItem';
 
 @Component({
   selector: 'app-products',
@@ -12,11 +13,7 @@ import { RatingsComponent } from '../ratings/ratings.component';
   providers: [ProductsService],
 })
 export class ProductsComponent {
-  products: Product[] = [];
 
-  constructor(private productsService: ProductsService) {
-    productsService.getAllProducts().subscribe((data) => {
-      this.products = data;
-    });
-  }
+  constructor(public productsStoreItem: ProductsStoreItem) {}
+  
 }

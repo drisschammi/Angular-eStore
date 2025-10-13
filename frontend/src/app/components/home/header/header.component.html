@@ -43,9 +43,9 @@
             <select
                 class="w-auto bg-gray-300 h-full border-none font-semibold px-2 pr-5"
             >
-                <option>Men</option>
-                <option>Women</option>
-                <option>Kids</option>
+                @for (category of categoryStore.topLevelCategories(); track $index) {
+                    <option>{{category.category}}</option>
+                }
             </select>
 
             <!-- Search input field -->
@@ -100,8 +100,8 @@
                 <h5>
                     <a 
                     href="#" 
-                    class="text-white               <!-- Text color: white -->
-                            no-underline           <!-- Remove underline -->
+                    class="text-white
+                            no-underline
                             hover:underline">      <!-- Add underline on hover -->
                     Sign in
                     </a>
@@ -112,8 +112,8 @@
                 <h5>
                     <a 
                     href="#" 
-                    class="text-white               <!-- Text color: white -->
-                            no-underline           <!-- Remove underline -->
+                    class="text-white
+                            no-underline
                             hover:underline">      <!-- Add underline on hover -->
                     Register
                     </a>
@@ -128,7 +128,6 @@
                     gap-4                <!-- Horizontal gap between icons: 1rem -->
                     text-white           <!-- Icon color: white -->
                     text-[1.3em]">       <!-- Custom font size: 1.3em -->
-                <fa-icon [icon]="faHeart"></fa-icon>
                 <fa-icon [icon]="faShoppingCart"></fa-icon>
             </div>
 

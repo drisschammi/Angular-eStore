@@ -1,37 +1,32 @@
-<div 
-  class="w-full               <!-- Sets the width to 100% -->
-         shadow-lg            <!-- Applies a large box shadow -->
-         shadow-gray-500/50   <!-- Shadow color: gray-500 with 50% opacity -->
-         bg-gray-900">        <!-- Background color: very dark gray -->
+<div
+  class="w-full <!-- Sets the width to 100% --> shadow-lg <!-- Applies a large box shadow --> shadow-gray-500/50 <!-- Shadow color: gray-500 with 50% opacity --> bg-gray-900"
+>
+  <!-- Background color: very dark gray -->
 
-    <!-- Flex container to align inner items horizontally -->
-    <div class="flex items-center">        <!-- Makes child elements align in a row -->
+  <!-- Flex container to align inner items horizontally -->
+  <div class="flex items-center">
+    <!-- Makes child elements align in a row -->
 
-        <!-- Inner box for branding / title -->
-        <div 
-          class="text-white     <!-- Text color: white -->
-                 ml-2           <!-- Adds left margin (0.5rem) -->
-                 p-3            <!-- Adds padding on all sides (0.75rem) -->
-                 w-[23%]">      <!-- Custom width: 23% -->
+    <!-- Inner box for branding / title -->
+    <div
+      class="text-white <!-- Text color: white --> ml-2 <!-- Adds left margin (0.5rem) --> p-3 <!-- Adds padding on all sides (0.75rem) --> w-[23%]"
+    >
+      <!-- Custom width: 23% -->
 
-            <h1 class="text-xl         <!-- Font size: extra large -->
-                       font-bold">     <!-- Font weight: bold -->
-                ANGULAR-ESTORE
-            </h1>
-        </div>
+      <h1 class="text-xl <!-- Font size: extra large --> font-bold">
+        <!-- Font weight: bold -->
+        ANGULAR-ESTORE
+      </h1>
+    </div>
 
-        <!-- Search box container -->
-        <div 
-          class="p-0               <!-- Padding reset to zero -->
-                 my-4              <!-- Vertical margin (top & bottom) 1rem -->
-                 w-[50%]           <!-- Custom width: 50% of parent -->
-                 h-[2.5rem]        <!-- Fixed height: 2.5 rem -->
-                 bg-white          <!-- Background color: white -->
-                 flex              <!-- Flex container for input & button -->
-                 items-center">    <!-- Vertically center children -->
+    <!-- Search box container -->
+    <div
+      class="p-0 <!-- Padding reset to zero --> my-4 <!-- Vertical margin (top & bottom) 1rem --> w-[50%] <!-- Custom width: 50% of parent --> h-[2.5rem] <!-- Fixed height: 2.5 rem --> bg-white <!-- Background color: white --> flex <!-- Flex container for input & button --> items-center"
+    >
+      <!-- Vertically center children -->
 
-            <!-- Category dropdown -->
-            <!-- 
+      <!-- Category dropdown -->
+      <!-- 
                 w-auto → Width adjusts to content
                     bg-gray-300 → Light gray background
                         h-full → Full height of parent container
@@ -40,99 +35,79 @@
                                     px-2 → Horizontal padding: 0.5rem (left and right)
                                         pr-5 → Extra right padding: 1.25rem (useful if there's an arrow icon or to avoid clipping text)
             -->
-            <select
-                class="w-auto bg-gray-300 h-full border-none font-semibold px-2 pr-5"
-            >
-                @for (category of categoryStore.topLevelCategories(); track $index) {
-                    <option>{{category.category}}</option>
-                }
-            </select>
+      <select
+        #categoryOptions
+        class="w-auto bg-gray-300 h-full border-none font-semibold px-2 pr-5"
+      >
+        @for (category of categoryStore.topLevelCategories(); track $index) {
+        <option [value]="category.id">{{ category.category }}</option>
+        }
+      </select>
 
-            <!-- Search input field -->
-                <!-- Width: 90% of parent container -->
-                    <!-- Height: 100% of parent container (2.5rem) -->
-                        <!-- Display inline-block -->
-                            <!-- Remove default border -->
-                                <!-- Remove focus outline -->
-                                    <!-- Horizontal padding left & right 0.75rem -->
-            <input
-                class="w-[90%] h-full inline-block border-none outline-none px-3"
-                placeholder="Search..."
-            />
+      <!-- Search input field -->
+      <!-- Width: 90% of parent container -->
+      <!-- Height: 100% of parent container (2.5rem) -->
+      <!-- Display inline-block -->
+      <!-- Remove default border -->
+      <!-- Remove focus outline -->
+      <!-- Horizontal padding left & right 0.75rem -->
+      <input
+        #keyword
+        class="w-[90%] h-full inline-block border-none outline-none px-3"
+        placeholder="Search..."
+      />
 
-            <!-- Search button -->
-            <button 
-              class="w-[10%]          <!-- Width: 10% of parent -->
-                     h-10             <!-- Fixed height: 2.5rem (10 x 0.25rem) -->
-                     border-none      <!-- Remove default border -->
-                     bg-gray-300      <!-- Light gray background -->
-                     flex             <!-- Flex container -->
-                     justify-center   <!-- Horizontally center icon -->
-                     items-center">   <!-- Vertically center icon -->
+      <!-- Search button -->
+      <button
+        (click)="onClickSearch(keyword.value, categoryOptions.value)"
+        class="w-[10%] <!-- Width: 10% of parent --> h-10 <!-- Fixed height: 2.5rem (10 x 0.25rem) --> border-none <!-- Remove default border --> bg-gray-300 <!-- Light gray background --> flex <!-- Flex container --> justify-center <!-- Horizontally center icon --> items-center"
+      >
+        <!-- Vertically center icon -->
 
-                <fa-icon [icon]="faSearch"></fa-icon>
-            </button>
-
-        </div>
-
-        <!-- Right section container -->
-        <div 
-        class="flex                 <!-- Flex container to arrange children horizontally -->
-                items-center         <!-- Vertically center items -->
-                w-[27%]              <!-- Custom width: 27% of parent -->
-                gap-6                <!-- Horizontal gap between child elements: 1.5rem -->
-                justify-end          <!-- Push content to the right -->
-                pr-4                 <!-- Right padding: 1rem -->
-                h-full">             <!-- Full height of parent container -->
-
-            <!-- User authentication links (Sign in / Register) -->
-            <div 
-            class="flex             <!-- Arrange inner elements in a row -->
-                    items-center     <!-- Vertically center items -->
-                    gap-2            <!-- Horizontal gap between items: 0.5rem -->
-                    text-white">     <!-- Text color: white -->
-
-                <fa-icon 
-                    [icon]="faUserCircle" 
-                    class="text-[1.3em]"> <!-- Custom font size: 1.3em -->
-                </fa-icon>
-
-                <h5>
-                    <a 
-                    href="#" 
-                    class="text-white
-                            no-underline
-                            hover:underline">      <!-- Add underline on hover -->
-                    Sign in
-                    </a>
-                </h5>
-
-                <span>/</span>
-                
-                <h5>
-                    <a 
-                    href="#" 
-                    class="text-white
-                            no-underline
-                            hover:underline">      <!-- Add underline on hover -->
-                    Register
-                    </a>
-                </h5>
-
-            </div>
-
-            <!-- Icons for Wishlist and Cart -->
-            <div 
-            class="flex                 <!-- Arrange icons in a row -->
-                    items-center         <!-- Vertically center icons -->
-                    gap-4                <!-- Horizontal gap between icons: 1rem -->
-                    text-white           <!-- Icon color: white -->
-                    text-[1.3em]">       <!-- Custom font size: 1.3em -->
-                <fa-icon [icon]="faShoppingCart"></fa-icon>
-            </div>
-
-        </div>
-
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </button>
     </div>
-    
+
+    <!-- Right section container -->
+    <div
+      class="flex <!-- Flex container to arrange children horizontally --> items-center <!-- Vertically center items --> w-[27%] <!-- Custom width: 27% of parent --> gap-6 <!-- Horizontal gap between child elements: 1.5rem --> justify-end <!-- Push content to the right --> pr-4 <!-- Right padding: 1rem --> h-full"
+    >
+      <!-- Full height of parent container -->
+
+      <!-- User authentication links (Sign in / Register) -->
+      <div
+        class="flex <!-- Arrange inner elements in a row --> items-center <!-- Vertically center items --> gap-2 <!-- Horizontal gap between items: 0.5rem --> text-white"
+      >
+        <!-- Text color: white -->
+
+        <fa-icon [icon]="faUserCircle" class="text-[1.3em]">
+          <!-- Custom font size: 1.3em -->
+        </fa-icon>
+
+        <h5>
+          <a href="#" class="text-white no-underline hover:underline">
+            <!-- Add underline on hover -->
+            Sign in
+          </a>
+        </h5>
+
+        <span>/</span>
+
+        <h5>
+          <a href="#" class="text-white no-underline hover:underline">
+            <!-- Add underline on hover -->
+            Register
+          </a>
+        </h5>
+      </div>
+
+      <!-- Icons for Wishlist and Cart -->
+      <div
+        class="flex <!-- Arrange icons in a row --> items-center <!-- Vertically center icons --> gap-4 <!-- Horizontal gap between icons: 1rem --> text-white <!-- Icon color: white --> text-[1.3em]"
+      >
+        <!-- Custom font size: 1.3em -->
+        <fa-icon [icon]="faShoppingCart"></fa-icon>
+      </div>
+    </div>
+  </div>
 </div>

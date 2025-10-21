@@ -25,7 +25,11 @@ export class ProductsService {
     if (filters?.keyword != null) {
       params = params.set('keyword', filters.keyword);
     }
-    
+
     return this.http.get<Product[]>(this.baseURL, { params });
+  }
+
+  getProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseURL}/${id}`);
   }
 }

@@ -16,7 +16,7 @@
       class="relative w-full aspect-[3/4] bg-gray-100 overflow-hidden rounded-md"
     >
       @defer (on viewport) {
-      <a routerLink="/home/product">
+      <a routerLink="/home/product/{{ product.id }}">
         <img
           class="absolute inset-0 w-full h-full object-cover rounded-md transition-transform duration-300 ease-in-out transform hover:scale-105"
           [src]="'../../../../assets/images/' + product.product_img"
@@ -34,7 +34,7 @@
     <div class="p-4 text-center">
       @defer (on viewport) {
       <a
-        routerLink="/home/product"
+        routerLink="/home/product/{{ product.id }}"
         class="text-black hover:text-black no-underline cursor-pointer"
       >
         <h5 class="font-semibold min-h-[24px]">

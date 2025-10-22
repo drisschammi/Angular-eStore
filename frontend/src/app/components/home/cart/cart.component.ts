@@ -6,10 +6,12 @@ import { CartStoreItem } from '../services/cart/cart.storeItem';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommonModule } from '@angular/common';
+import { RatingsComponent } from '../../ratings/ratings.component';
 
 @Component({
   selector: 'app-cart',
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, CommonModule, RatingsComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })

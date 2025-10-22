@@ -13,7 +13,7 @@ import { CartStoreItem } from '../services/cart/cart.storeItem';
 
 @Component({
   selector: 'app-header',
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

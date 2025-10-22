@@ -8,14 +8,12 @@ import { ProductsService } from './services/product/products.service';
 import { SearchKeyword } from './types/searchKeyword.type';
 import { RouterOutlet } from '@angular/router';
 import { CartStoreItem } from './services/cart/cart.storeItem';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    HeaderComponent, 
-    CatnavigationComponent, 
-    RouterOutlet
-  ],
+  imports: [HeaderComponent, CatnavigationComponent, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   providers: [
@@ -29,10 +27,19 @@ import { CartStoreItem } from './services/cart/cart.storeItem';
 export class HomeComponent {
   constructor(
     private categoriesStore: CategoriesStoreItem,
-    private productsStoreItem: ProductsStoreItem
+    private productsStoreItem: ProductsStoreItem,
+    private router: Router
   ) {
     this.categoriesStore.loadCategories();
     this.productsStoreItem.loadProducts();
+
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if ((event as NavigationEnd).url === '/home') {
+          router.navigate(['/home/products']);
+        }
+      });
   }
 
   onSelectCategory(mainCategoryId: number): void {

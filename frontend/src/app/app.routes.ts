@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProductsGalleryComponent } from './components/home/products-gallery/products-gallery.component';
 import { ProductDetailsComponent } from './components/home/product-details/product-details.component';
+import { CartComponent } from './components/home/cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
         path: 'product/:id',
         component: ProductDetailsComponent,
       },
+      {
+        path: 'cart',
+        component: CartComponent,
+      }
     ],
   },
   { path: '', redirectTo: '/home/products', pathMatch: 'full' },

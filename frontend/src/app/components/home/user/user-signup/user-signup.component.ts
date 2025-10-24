@@ -9,10 +9,11 @@ import {
 import { matchPasswords } from './validators/match-passwords.validator';
 import { UserService } from '../services/user.service';
 import { User } from '../../types/user.type';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-user-signup',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './user-signup.component.html',
   styleUrl: './user-signup.component.css',
   providers: [UserService],

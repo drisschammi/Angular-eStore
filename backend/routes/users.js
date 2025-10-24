@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const pool = require("../shared/pool");
 const bcrypt = require("bcryptjs");
@@ -60,7 +60,9 @@ user.post("/login", async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.status(200).send({ token, message: "Login successful" });
+    res
+      .status(200)
+      .send({ token, expiresInSeconds: 3600, message: "Login successful" });
   } catch (err) {
     console.log("Login Error: ", err);
     res.status(500).send({

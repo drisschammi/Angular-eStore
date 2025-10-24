@@ -10,6 +10,7 @@ import { RouterOutlet } from '@angular/router';
 import { CartStoreItem } from './services/cart/cart.storeItem';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { filter } from 'rxjs';
     ProductsStoreItem,
     ProductsService,
     CartStoreItem,
+    UserService
   ],
 })
 export class HomeComponent {

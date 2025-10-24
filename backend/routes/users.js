@@ -62,7 +62,19 @@ user.post("/login", async (req, res) => {
     );
     res
       .status(200)
-      .send({ token, expiresInSeconds: 3600, message: "Login successful" });
+      .send({
+        token,
+        expiresInSeconds: 3600,
+        user: {
+          firstName: foundUser.firstName,
+          lastName: foundUser.lastName,
+          address: foundUser.address,
+          city: foundUser.city,
+          state: foundUser.state,
+          pin: foundUser.pin,
+        },
+        message: "Login successful",
+      });
   } catch (err) {
     console.log("Login Error: ", err);
     res.status(500).send({

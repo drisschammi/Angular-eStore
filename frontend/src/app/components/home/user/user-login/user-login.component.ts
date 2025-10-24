@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { LoginToken } from '../../types/user.type';
 import { NgClass } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-login',
@@ -22,7 +23,11 @@ export class UserLoginComponent {
   alertType: number = 0;
   alertMessage: string = '';
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private location: Location
+  ) {
     this.userLoginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -60,6 +65,9 @@ export class UserLoginComponent {
           this.alertMessage = 'Invalid login attempt.';
           this.alertType = 1;
         }
+        setTimeout(() => {
+          this.location.back();
+        }, 1000);
       },
       error: (err) => {
         this.userLoginForm.enable();

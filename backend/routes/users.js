@@ -13,7 +13,7 @@ user.post("/signup", async (req, res) => {
       .promise()
       .query("select count(*) as count from users where email = ?", [email]);
     if (existingUser[0].count > 0) {
-      return res.status(200).send("Email already exists");
+      return res.status(200).send({ message: "Email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,9 +25,13 @@ user.post("/signup", async (req, res) => {
         [email, firstName, lastName, address, city, state, pin, hashedPassword]
       );
 
-    res.status(201).send("Success");
+    res.status(201).send({ message: "Success" });
   } catch (error) {
-    res.status(500).send(error.message) || "Something went wrong";
+    console.log("Signup Error: ", error);
+    res.status(500).send({
+      error: error.code || "INTERNAL_ERROR",
+      message: error.message || "Something went wrong",
+    });
   }
 });
 

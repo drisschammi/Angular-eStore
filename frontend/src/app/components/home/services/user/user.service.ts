@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { LoggedInUser, LoginToken, User } from '../../types/user.type';
 import { toObservable } from '@angular/core/rxjs-interop';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
   private isAuthenticated = signal<boolean>(false);
   private loggedInUserInfo = signal<LoggedInUser>({} as LoggedInUser);

@@ -4,6 +4,7 @@ import {
   faSearch,
   faUserCircle,
   faShoppingCart,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesStoreItem } from '../services/category/categories.storeItem';
 import { SearchKeyword } from '../types/searchKeyword.type';
@@ -23,6 +24,12 @@ export class HeaderComponent {
   faSearch = faSearch;
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
+  faChevronDown = faChevronDown;
+
+  dropdownVisible = false;
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
 
   readonly searchClicked = output<SearchKeyword>();
   displaySearch = signal(true);

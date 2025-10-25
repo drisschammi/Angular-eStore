@@ -8,21 +8,25 @@
           >Select Order</label
         >
         <select
+          (change)="selectOrder($event)"
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="0" disabled selected>Please select value</option>
-          <option value="1">Order 1</option>
-          <option value="2">Order 2</option>
-          <option value="3">Order 3</option>
+          @for (pastOrder of pastOrders(); track $index) {
+          <option value="{{ pastOrder.orderId }}">
+            {{ pastOrder.orderId }} Date: {{ pastOrder.orderDate }}
+          </option>
+          }
         </select>
       </div>
 
+      @if (pastOrder()) {
       <!-- Product List -->
       <div class="space-y-6">
         <h2 class="text-xl font-semibold text-gray-900">
           Previous Order Details
         </h2>
-        @for (product of pastOrderProducts; track product) {
+        @for (product of pastOrderProducts(); track product) {
         <div
           class="flex flex-col sm:flex-row gap-4 items-start bg-gray-50 p-4 rounded-lg"
         >
@@ -49,6 +53,7 @@
         </div>
         }
       </div>
+      }
     </div>
 
     <!-- Right Column: Delivery + Summary (Steady Card) -->
@@ -58,21 +63,21 @@
         <h2 class="text-xl font-semibold text-gray-900 mb-2">
           Delivery Address
         </h2>
-        <p><strong>Name:</strong> {{ pastOrder.userName }}</p>
-        <p><strong>Address:</strong> {{ pastOrder.address }}</p>
-        <p><strong>City:</strong> {{ pastOrder.city }}</p>
-        <p><strong>State:</strong> {{ pastOrder.state }}</p>
-        <p><strong>Pin:</strong> {{ pastOrder.pin }}</p>
+        <p><strong>Name:</strong> {{ pastOrder()?.userName }}</p>
+        <p><strong>Address:</strong> {{ pastOrder()?.address }}</p>
+        <p><strong>City:</strong> {{ pastOrder()?.city }}</p>
+        <p><strong>State:</strong> {{ pastOrder()?.state }}</p>
+        <p><strong>Pin:</strong> {{ pastOrder()?.pin }}</p>
       </div>
 
       <!-- Summary -->
       <div class="bg-gray-100 p-5 rounded-lg space-y-2 sticky top-[280px]">
         <h2 class="text-xl font-semibold text-gray-900 mb-2">Summary</h2>
-        <p><strong>Order Total:</strong> {{ pastOrder.total | currency }}</p>
+        <p><strong>Order Total:</strong> {{ pastOrder()?.total | currency }}</p>
         <p><strong>Shipping Charges:</strong> Free</p>
         <hr />
         <p class="text-lg font-bold text-gray-900">
-          Total: {{ pastOrder.total | currency }}
+          Total: {{ pastOrder()?.total | currency }}
         </p>
       </div>
     </div>

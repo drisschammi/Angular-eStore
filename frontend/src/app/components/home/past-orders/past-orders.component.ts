@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { PastOrder, PastOrderProduct } from '../types/order.type';
 import { CommonModule } from '@angular/common';
+import { OrderService } from '../services/order/order.service';
+import { UserService } from '../services/user/user.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-past-orders',
@@ -9,24 +12,38 @@ import { CommonModule } from '@angular/common';
   styleUrl: './past-orders.component.css',
 })
 export class PastOrdersComponent {
-  pastOrderProducts: PastOrderProduct[] = [
-    {
-      amount: 100,
-      price: 50,
-      productId: 1,
-      productImage: 'shop-1.jpg',
-      productName: 'Jacket',
-      qty: 2,
-    },
-  ];
+  private orderService = inject(OrderService);
+  private userService = inject(UserService);
 
-  pastOrder: PastOrder = {
-    address: 'Address goes here',
-    city: 'New Jersey',
-    orderDate: '03/01/23',
-    pin: '12345',
-    state: 'NY',
-    total: 100,
-    userName: 'Thomas Brown',
-  };
+  selectedOrderId = signal<number | null>(null);
+  readonly pastOrderProducts = signal<PastOrderProduct[]>([]);
+
+  // fetch past orders using toSignal
+  readonly pastOrders = toSignal(
+    this.orderService.getOrders(this.userService.loggedInUser.email),
+    { initialValue: [] as PastOrder[] }
+  );
+
+  // selected past order
+  readonly pastOrder = computed(() =>
+    this.pastOrders().find((o) => o.orderId === this.selectedOrderId())
+  );
+
+  constructor() {
+    effect(() => {
+      const id = this.selectedOrderId();
+      if (id) {
+        this.orderService.getOrderProducts(id).subscribe((products) => {
+          this.pastOrderProducts.set(products);
+        });
+      } else {
+        this.pastOrderProducts.set([]);
+      }
+    });
+  }
+
+  selectOrder(event: Event): void {
+    const value = Number.parseInt((event.target as HTMLSelectElement).value);
+    this.selectedOrderId.set(value > 0 ? value : null);
+  }
 }

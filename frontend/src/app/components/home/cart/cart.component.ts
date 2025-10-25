@@ -6,7 +6,7 @@ import { CartStoreItem } from '../services/cart/cart.storeItem';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { RatingsComponent } from '../../ratings/ratings.component';
 import {
   FormBuilder,
@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { LoggedInUser } from '../types/user.type';
 import { UserService } from '../services/user/user.service';
+import { OrderService } from '../services/order/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -24,6 +25,7 @@ import { UserService } from '../services/user/user.service';
     CommonModule,
     RatingsComponent,
     ReactiveFormsModule,
+    NgClass,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
@@ -32,6 +34,10 @@ export class CartComponent {
   faTrash = faTrash;
   faBoxOpen = faBoxOpen;
   faShoppingCart = faShoppingCart;
+
+  alertType: number = 0;
+  alertMessage: string = '';
+  disableCheckout: boolean = false;
 
   user = signal<LoggedInUser>({
     firstName: '',
@@ -49,7 +55,8 @@ export class CartComponent {
     public cartStore: CartStoreItem,
     private router: Router,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private orderService: OrderService
   ) {
     this.orderForm = signal(this.createOrderForm(this.user()));
     this.userService.loggedInUser$.subscribe((u) => this.user.set(u));
@@ -92,10 +99,52 @@ export class CartComponent {
   }
 
   onSubmit(): void {
-    if (this.orderForm().valid) {
-      console.log('Order submitted: ', this.orderForm().value);
-    } else {
-      console.log('Invalid order form');
+    if (!this.userService.isUserAuthenticated) {
+      this.alertType = 2;
+      this.alertMessage = 'Please log in to register your order.';
+      return;
     }
+
+    const form = this.orderForm();
+
+    if (form.invalid) {
+      this.alertType = 2;
+      this.alertMessage = 'Please fill out all required fields correctly.';
+      return;
+    }
+
+    const deliveryAddress = {
+      userName: form.get('name')?.value,
+      address: form.get('address')?.value,
+      city: form.get('city')?.value,
+      state: form.get('state')?.value,
+      pin: form.get('pin')?.value,
+    };
+
+    const email = this.user()?.email;
+
+    if (!email) {
+      this.alertType = 2;
+      this.alertMessage = 'User email not found. Please log in again.';
+      return;
+    }
+
+    this.orderService.saveOrder(deliveryAddress, email).subscribe({
+      next: (result) => {
+        this.cartStore.clearCart();
+        this.alertType = 0;
+        this.alertMessage = 'Order registered successfully!';
+        this.disableCheckout = true;
+      },
+      error: (error) => {
+        this.alertType = 2;
+        if (error.error?.message === 'Authorization failed!') {
+          this.alertMessage = 'Please log in to register your order.';
+        } else {
+          this.alertMessage =
+            error.error?.message || 'An unexpected error occurred.';
+        }
+      },
+    });
   }
 }

@@ -109,4 +109,10 @@ export class CartStoreItem {
       return [];
     }
   }
+  clearCart(): void {
+    sessionStorage.clear();
+    this.cart().products = [];
+    this.cart().totalAmount = 0;
+    this.cart().totalProducts = 0; 
+  }
 }

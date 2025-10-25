@@ -81,6 +81,10 @@ export class HeaderComponent {
     this.router.navigate(['home/cart']);
   }
 
+  pastOrders(): void {
+    this.router.navigate(['home/pastorders']);
+  }
+
   logout(): void {
     this.userService.logout();
   }

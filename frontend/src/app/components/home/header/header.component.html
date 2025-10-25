@@ -63,11 +63,14 @@
 
       @if (dropdownVisible) {
       <div
-        class="absolute right-0 mt-2 w-36 bg-white rounded-md shadow-md border border-gray-200 z-50"
+        class="absolute right-0 mt-2 w-35 bg-white rounded-md shadow-md border border-gray-200 z-50"
       >
         <ul class="py-1 text-sm text-gray-700">
           <li class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-            <a (click)="logout()">Logout</a>
+            <a (click)="pastOrders()">Past Order</a>
+          </li>
+          <li class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <a href="#" (click)="logout()">Logout</a>
           </li>
         </ul>
       </div>

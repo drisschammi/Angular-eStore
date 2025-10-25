@@ -11,6 +11,7 @@ import { CartStoreItem } from './services/cart/cart.storeItem';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { UserService } from './services/user/user.service';
+import { OrderService } from './services/order/order.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,8 @@ import { UserService } from './services/user/user.service';
     ProductsStoreItem,
     ProductsService,
     CartStoreItem,
-    UserService
+    UserService,
+    OrderService
   ],
 })
 export class HomeComponent {

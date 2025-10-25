@@ -9,6 +9,7 @@ export class UserService {
   private isAuthenticated = signal<boolean>(false);
   private loggedInUserInfo = signal<LoggedInUser>({} as LoggedInUser);
   private autoLogoutTimer: any;
+  private authToken!: string;
 
   constructor(private http: HttpClient) {
     this.loadToken();
@@ -23,6 +24,9 @@ export class UserService {
   get loggedInUser$(): Observable<LoggedInUser> {
     return toObservable(this.loggedInUserInfo);
   }
+  get token(): string {
+    return this.authToken;
+  }
 
   createUser(user: User): Observable<any> {
     const url: string = 'http://localhost:5001/users/signup';
@@ -34,7 +38,7 @@ export class UserService {
     return this.http.post(url, { email: email, password: password });
   }
 
-  activateToken(token: LoginToken): void {
+  activateToken(token: LoginToken, email: string): void {
     // token.expiresInSeconds = 10;
     localStorage.setItem('token', token.token);
     localStorage.setItem(
@@ -47,10 +51,12 @@ export class UserService {
     localStorage.setItem('city', token.user.city);
     localStorage.setItem('state', token.user.state);
     localStorage.setItem('pin', token.user.pin);
+    localStorage.setItem('email', email);
 
     this.isAuthenticated.set(true);
     this.loggedInUserInfo.set(token.user);
     this.setAutoLogoutTimer(token.expiresInSeconds * 1000);
+    this.authToken = token.token;
   }
 
   logout(): void {
@@ -81,11 +87,13 @@ export class UserService {
         city: localStorage.getItem('city') || '',
         state: localStorage.getItem('state') || '',
         pin: localStorage.getItem('pin') || '',
+        email: localStorage.getItem('email') || '',
       };
 
       this.isAuthenticated.set(true);
       this.loggedInUserInfo.set(user);
       this.setAutoLogoutTimer(expiresIn);
+      this.authToken = token;
     } else {
       this.logout();
     }

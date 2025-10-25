@@ -40,6 +40,7 @@ export class CartComponent {
     city: '',
     state: '',
     pin: '',
+    email: '',
   });
 
   orderForm: WritableSignal<FormGroup>;

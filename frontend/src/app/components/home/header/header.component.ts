@@ -60,6 +60,7 @@ export class HeaderComponent {
         city: '',
         state: '',
         pin: '',
+        email: '',
       },
     });
 

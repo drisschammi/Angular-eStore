@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const productCategories = require("./routes/productCategories");
 const products = require("./routes/products");
 const user = require("./routes/users");
+const orders = require("./routes/orders");
 
 // App Initialization
 const app = express();
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use("/productCategories", productCategories);
 app.use("/products", products);
 app.use("/users", user);
+app.use("/orders", orders);
 
 // Server Setup
 const server = app.listen(PORT, () => {

@@ -1,8 +1,9 @@
 const express = require("express");
 const pool = require("../shared/pool");
 const orders = express.Router();
+const checkToken = require("../shared/checkToken");
 
-orders.post("/add", async (req, res) => {
+orders.post("/add", checkToken, async (req, res) => {
   const {
     userName,
     userEmail,

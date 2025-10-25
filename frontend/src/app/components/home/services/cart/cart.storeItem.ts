@@ -1,18 +1,40 @@
-import { computed, effect, signal } from '@angular/core';
+import { signal, computed, effect } from '@angular/core';
 import { CartItem } from '../../types/cart.type';
 import { Product } from '../../types/products.type';
 
-export class CartStoreItem {
-  private readonly _products = signal<CartItem[]>(this.loadFromSession());
+function isBrowser(): boolean {
+  return typeof window !== 'undefined' && typeof sessionStorage !== 'undefined';
+}
 
-  private _saveEffect = effect(() => {
-    const products = this._products();
-    if (products.length === 0) {
-      sessionStorage.removeItem('cart');
-    } else {
-      sessionStorage.setItem('cart', JSON.stringify(products));
+export class CartStoreItem {
+  private readonly _initialized = signal(false);
+  private readonly _products = signal<CartItem[]>([]);
+
+  constructor() {
+    if (isBrowser()) {
+      const loaded = this.loadFromSession();
+      this._products.set(loaded);
     }
-  });
+    this._initialized.set(true);
+
+    // Only run this effect once initialized
+    effect(() => {
+      if (!this._initialized() || !isBrowser()) return;
+
+      const products = this._products();
+      try {
+        if (products.length === 0) {
+          sessionStorage.removeItem('cart');
+        } else {
+          sessionStorage.setItem('cart', JSON.stringify(products));
+        }
+      } catch (error) {
+        console.error('Failed to sync cart to sessionStorage:', error);
+      }
+    });
+  }
+
+  readonly initialized = computed(() => this._initialized());
 
   readonly totalAmount = computed(() =>
     this._products().reduce((sum, item) => sum + item.amount, 0)
@@ -29,40 +51,31 @@ export class CartStoreItem {
   }));
 
   addProduct(product: Product): void {
-    const currentItems = this._products();
-    const existingIndex = currentItems.findIndex(
-      (item) => item.product.id === product.id
-    );
+    const current = this._products();
+    const index = current.findIndex((i) => i.product.id === product.id);
 
-    if (existingIndex === -1) {
+    if (index === -1) {
       this._products.set([
-        ...currentItems,
-        {
-          product,
-          quantity: 1,
-          amount: Number(product.price),
-        },
+        ...current,
+        { product, quantity: 1, amount: Number(product.price) },
       ]);
     } else {
-      const updatedItems = [...currentItems];
-      const existing = updatedItems[existingIndex];
-
-      updatedItems[existingIndex] = {
-        ...existing,
-        quantity: existing.quantity + 1,
-        amount: existing.amount + Number(product.price),
+      const updated = [...current];
+      const item = updated[index];
+      updated[index] = {
+        ...item,
+        quantity: item.quantity + 1,
+        amount: item.amount + Number(product.price),
       };
-      this._products.set(updatedItems);
+      this._products.set(updated);
     }
   }
 
   decreaseProductQuantity(cartItem: CartItem): void {
-    const updatedItems = this._products()
+    const updated = this._products()
       .map((item) => {
         if (item.product.id === cartItem.product.id) {
-          if (item.quantity <= 1) {
-            return null;
-          }
+          if (item.quantity <= 1) return null;
           return {
             ...item,
             quantity: item.quantity - 1,
@@ -71,23 +84,28 @@ export class CartStoreItem {
         }
         return item;
       })
-      .filter(Boolean) as CartItem[]; //Remove nulls
+      .filter(Boolean) as CartItem[];
 
-    this._products.set(updatedItems);
+    this._products.set(updated);
   }
 
   removeProduct(cartItem: CartItem): void {
-    const updatedItems = this._products().filter(
+    const updated = this._products().filter(
       (item) => item.product.id !== cartItem.product.id
     );
-    this._products.set(updatedItems);
+    this._products.set(updated);
   }
 
   private loadFromSession(): CartItem[] {
-    const storedProducts = sessionStorage.getItem('cart');
+    const raw = sessionStorage.getItem('cart');
+    if (!raw) return [];
+
     try {
-      return storedProducts ? JSON.parse(storedProducts) : [];
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+      return [];
     } catch {
+      console.warn('Invalid session storage cart format.');
       return [];
     }
   }
